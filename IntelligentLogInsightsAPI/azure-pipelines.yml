@@ -1,0 +1,69 @@
+
+
+trigger:
+  - master   # Trigger pipeline on commits to master branch
+
+pool:
+  name: 'Default'   # Use Microsoft-hosted Windows agent
+
+steps:
+
+# Step 1: Select Python version
+
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.10'
+    addToPath: true
+  displayName: 'Setup Python 3.10'
+
+
+# Step 2: Checkout source code
+
+- checkout: self
+  displayName: 'Checkout source code'
+
+# Step 3: Install dependencies
+
+- script: |
+    python -m pip install --upgrade pip
+    pip install -r requirements.txt
+  displayName: 'Install dependencies'
+
+# Step 4: Run tests (optional)
+
+- script: |
+    pytest || echo "No tests found - continuing build"
+  displayName: 'Run tests (ignore failures)'
+  continueOnError: true
+
+
+# Step 5: Archive build artifacts
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/build.zip'
+    replaceExistingArchive: true
+  displayName: 'Archive project files'
+
+
+# Step 6: Publish build artifacts
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: 'drop'
+  displayName: 'Publish build artifact'
+
+
+# Step 7: Deploy to Azure App Service
+
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'AzureConnection-LogInsights'   #  use the same name as your service connection
+    appType: 'webApp'
+    appName: 'intelligent-log-insights-api'            #  replace with your App Service name from Azure portal
+    package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+  displayName: 'Deploy to Azure App Service'

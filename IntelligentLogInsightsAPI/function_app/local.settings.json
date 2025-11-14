@@ -1,0 +1,12 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "ServiceBusConnection": "Endpoint=sb://loginsights-namespace.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=FyWy1qFnzBkusdqDAcwTqDnS6IFw32S7Q+ASbCZ2ysw=",
+
+    "CosmosDBConnectionString": "AccountEndpoint=https://logginginsights.documents.azure.com:443/;AccountKey=yYzeB4zpegzyjiP7mwkyPX88YTIvGb7LgfQCjJKSh5LWBN47JLzpfZt97CdXiAtsdc0pUl712MsOACDbmAyeBA==;",
+    "CosmosDBDatabase": "Logdb",
+    "CosmosDBContainer": "logcosdb"
+  }
+}

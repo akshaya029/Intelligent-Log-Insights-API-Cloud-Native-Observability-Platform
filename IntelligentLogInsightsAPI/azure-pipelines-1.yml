@@ -1,0 +1,46 @@
+trigger:
+  - master
+
+pool:
+  name: 'Default'
+
+steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.10'
+      addToPath: true
+
+  - checkout: self
+
+  - script: |
+      python -m pip install --upgrade pip
+      pip install -r requirements.txt
+    displayName: 'Install dependencies'
+
+  - script: |
+      pytest || echo "No tests found"
+    displayName: 'Run tests (ignore failures)'
+    continueOnError: true
+
+  - task: ArchiveFiles@2
+    inputs:
+      rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+      includeRootFolder: false
+      archiveType: 'zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/build.zip'
+      replaceExistingArchive: true
+    displayName: 'Archive project files'
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathToPublish: '$(Build.ArtifactStagingDirectory)'
+      artifactName: 'drop'
+    displayName: 'Publish build artifacts'
+
+  - task: AzureWebApp@1
+    inputs:
+      azureSubscription: 'AzureConnection-LogInsights'
+      appType: 'webApp'
+      appName: 'intelligent-log-insights-api'
+      package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+    displayName: 'Deploy to Azure App Service'

@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+sentence-transformers
+faiss-cpu
+numpy
+pandas
+azure-cosmos
+azure-servicebus
+azure-monitor-query
+opencensus-ext-azure
+apscheduler
+python-dotenv

@@ -1,0 +1,6 @@
+.\.venv\Scripts\activate
+
+
+func start --port 7072
+
+
