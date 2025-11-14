@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+google-generativeai
+faiss-cpu
+azure-cosmos
+python-dotenv
+tqdm
+numpy

@@ -1,0 +1,26 @@
+[
+    {
+        "id": "log1",
+        "timestamp": "2025-11-13 17:36:13.329556",
+        "level": "ERROR",
+        "service": "auth-api",
+        "message": "User authentication failed due to token timeout",
+        "region": "eastus"
+    },
+    {
+        "id": "log2",
+        "timestamp": "2025-11-13 17:36:13.329564",
+        "level": "WARNING",
+        "service": "payment-api",
+        "message": "Payment request took longer than expected",
+        "region": "westus"
+    },
+    {
+        "id": "log3",
+        "timestamp": "2025-11-13 17:36:13.329566",
+        "level": "INFO",
+        "service": "user-api",
+        "message": "User profile updated successfully",
+        "region": "centralus"
+    }
+]
